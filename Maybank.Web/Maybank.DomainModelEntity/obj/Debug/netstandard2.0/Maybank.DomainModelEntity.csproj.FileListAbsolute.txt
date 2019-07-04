@@ -1,0 +1,16 @@
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\bin\Debug\netstandard2.0\Maybank.DomainModelEntity.deps.json
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\bin\Debug\netstandard2.0\Maybank.DomainModelEntity.dll
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\obj\Debug\netstandard2.0\Maybank.DomainModelEntity.csprojAssemblyReference.cache
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\obj\Debug\netstandard2.0\Maybank.DomainModelEntity.csproj.CoreCompileInputs.cache
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\obj\Debug\netstandard2.0\Maybank.DomainModelEntity.AssemblyInfoInputs.cache
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\obj\Debug\netstandard2.0\Maybank.DomainModelEntity.AssemblyInfo.cs
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\bin\Debug\netstandard2.0\Maybank.DomainModelEntity.pdb
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\bin\Debug\netstandard2.0\System.ComponentModel.DataAnnotations.dll
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\bin\Debug\netstandard2.0\System.Configuration.dll
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\bin\Debug\netstandard2.0\System.Security.dll
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\bin\Debug\netstandard2.0\System.ComponentModel.DataAnnotations.xml
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\bin\Debug\netstandard2.0\System.Configuration.xml
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\bin\Debug\netstandard2.0\System.Security.xml
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\obj\Debug\netstandard2.0\Maybank.DomainModelEntity.csproj.CopyComplete
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\obj\Debug\netstandard2.0\Maybank.DomainModelEntity.dll
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.DomainModelEntity\obj\Debug\netstandard2.0\Maybank.DomainModelEntity.pdb

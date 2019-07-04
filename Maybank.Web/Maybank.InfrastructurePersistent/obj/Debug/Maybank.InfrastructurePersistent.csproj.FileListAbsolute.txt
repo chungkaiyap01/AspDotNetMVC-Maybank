@@ -1,0 +1,14 @@
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\bin\Debug\Maybank.InfrastructurePersistent.dll.config
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\bin\Debug\Maybank.InfrastructurePersistent.dll
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\bin\Debug\Maybank.InfrastructurePersistent.pdb
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\bin\Debug\EntityFramework.dll
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\bin\Debug\Maybank.DomainModelEntity.dll
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\bin\Debug\Maybank.DomainModelEntity.pdb
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\bin\Debug\EntityFramework.xml
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\obj\Debug\Maybank.InfrastructurePersistent.csprojAssemblyReference.cache
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\obj\Debug\Maybank.InfrastructurePersistent.csproj.CoreCompileInputs.cache
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\obj\Debug\Maybank.InfrastructurePersistent.csproj.CopyComplete
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\obj\Debug\Maybank.InfrastructurePersistent.dll
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\obj\Debug\Maybank.InfrastructurePersistent.pdb
