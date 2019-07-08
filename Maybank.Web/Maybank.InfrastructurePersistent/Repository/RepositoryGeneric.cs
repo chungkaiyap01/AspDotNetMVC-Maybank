@@ -47,5 +47,10 @@ namespace Maybank.InfrastructurePersistent.Repository
         {
             db.Entry(Entity).State = EntityState.Modified;
         }
+
+        public int Count()
+        {
+            return db.Set<T>().Count();
+        }
     }
 }

@@ -9,18 +9,27 @@ using System.Web.Mvc;
 using Maybank.InfrastructurePersistent.Context;
 using Maybank.DomainModelEntity.Entities;
 using Maybank.InfrastructurePersistent.UnitOfWork;
+using System.Net.Http;
 
 namespace Maybank.Web.Controllers
 {
     public class AdministratorsController : Controller
     {
         //private AppDbContext db = new AppDbContext();
-        private UnitOfWork db = new UnitOfWork();
+        //private UnitOfWork db = new UnitOfWork();
+
+        private string controller = "Administrators";
+        private HttpResponseMessage response;
 
         // GET: Administrators
         public ActionResult Index()
         {
-            return View(db.Administrator.ReadAll());
+            response = GlobalVariable.WebApiClient.GetAsync(controller).Result;
+            IEnumerable<Administrator> administratorList = response.Content.ReadAsAsync<IEnumerable<Administrator>>().Result;
+
+            return View(administratorList);
+
+            //return View(db.Administrator.ReadAll());
         }
 
         // GET: Administrators/Details/5
@@ -30,7 +39,8 @@ namespace Maybank.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Administrator administrator = db.Administrator.ReadSingle(id);
+            response = GlobalVariable.WebApiClient.GetAsync(string.Concat(controller, $"/{id}")).Result;
+            Administrator administrator = response.Content.ReadAsAsync<Administrator>().Result;
             if (administrator == null)
             {
                 return HttpNotFound();
@@ -53,8 +63,9 @@ namespace Maybank.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Administrator.Add(administrator);
-                db.Commit();
+                response = GlobalVariable.WebApiClient.PostAsJsonAsync(string.Concat(controller, $"/{administrator.ID}"), administrator).Result;
+                //db.Administrator.Add(administrator);
+                //db.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -68,7 +79,8 @@ namespace Maybank.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Administrator administrator = db.Administrator.ReadSingle(id);
+            response = GlobalVariable.WebApiClient.GetAsync(string.Concat(controller, $"/{id}")).Result;
+            Administrator administrator = response.Content.ReadAsAsync<Administrator>().Result;
             if (administrator == null)
             {
                 return HttpNotFound();
@@ -85,9 +97,11 @@ namespace Maybank.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                response = GlobalVariable.WebApiClient.PutAsJsonAsync(string.Concat(controller, $"/{administrator.ID}"), administrator).Result;
+
                 //db.Entry(administrator).State = EntityState.Modified;
-                db.Administrator.Update(administrator);
-                db.Commit();
+                //db.Administrator.Update(administrator);
+                //db.Commit();
                 return RedirectToAction("Index");
             }
             return View(administrator);
@@ -100,7 +114,8 @@ namespace Maybank.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Administrator administrator = db.Administrator.ReadSingle(id);
+            response = GlobalVariable.WebApiClient.GetAsync(string.Concat(controller, $"/{id}")).Result;
+            Administrator administrator = response.Content.ReadAsAsync<Administrator>().Result;
             if (administrator == null)
             {
                 return HttpNotFound();
@@ -113,20 +128,22 @@ namespace Maybank.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Administrator administrator = db.Administrator.ReadSingle(id);
-            //db.Administrator.Remove(administrator);
-            db.Administrator.Delete(administrator);
-            db.Commit();
+            response = GlobalVariable.WebApiClient.DeleteAsync(string.Concat(controller, $"/{id}")).Result;
+
+            //Administrator administrator = db.Administrator.ReadSingle(id);
+            ////db.Administrator.Remove(administrator);
+            //db.Administrator.Delete(administrator);
+            //db.Commit();
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }

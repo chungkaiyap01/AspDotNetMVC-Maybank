@@ -61,14 +61,14 @@ namespace Maybank.WebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                //if (!AdministratorExists(id))
-                //{
-                //    return NotFound();
-                //}
-                //else
-                //{
-                //    throw;
-                //}
+                if (!AdministratorExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -114,9 +114,9 @@ namespace Maybank.WebAPI.Controllers
             base.Dispose(disposing);
         }
 
-        //private bool AdministratorExists(int id)
-        //{
-        //    return db.Administrator.Count(e => e.ID == id) > 0;
-        //}
+        private bool AdministratorExists(int id)
+        {
+            return db.Administrator.Count() > 0;
+        }
     }
 }

@@ -85,3 +85,5 @@ C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.Web\obj\
 C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.Web\obj\Debug\Maybank.Web.pdb
 C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.Web\obj\Debug\Maybank.Web.Migrations._201907050455.resources
 C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.Web\obj\Debug\Maybank.Web.csproj.GenerateResource.cache
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.Web\bin\System.Net.Http.Formatting.dll
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.Web\bin\System.Net.Http.Formatting.xml

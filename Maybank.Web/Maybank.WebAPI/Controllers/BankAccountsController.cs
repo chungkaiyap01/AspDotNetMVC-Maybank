@@ -61,14 +61,14 @@ namespace Maybank.WebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                //if (!BankAccountExists(id))
-                //{
-                //    return NotFound();
-                //}
-                //else
-                //{
-                //    throw;
-                //}
+                if (!BankAccountExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -114,9 +114,9 @@ namespace Maybank.WebAPI.Controllers
             base.Dispose(disposing);
         }
 
-        //private bool BankAccountExists(int id)
-        //{
-        //    return db.BankAccount.Count(e => e.ID == id) > 0;
-        //}
+        private bool BankAccountExists(int id)
+        {
+            return db.BankAccount.Count() > 0;
+        }
     }
 }

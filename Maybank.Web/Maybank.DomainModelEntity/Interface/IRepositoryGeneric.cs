@@ -16,5 +16,7 @@ namespace Maybank.DomainModelEntity.Interface
         IQueryable<T> ReadAll();
 
         void Save();
+
+        int Count();
     }
 }

@@ -8,12 +8,15 @@ using System.Web;
 using System.Web.Mvc;
 using Maybank.InfrastructurePersistent.Context;
 using Maybank.DomainModelEntity.Entities;
+using System.Net.Http;
 
 namespace Maybank.Web.Controllers
 {
     public class BankAccountsController : Controller
     {
         private AppDbContext db = new AppDbContext();
+        private string controller = "BankAccounts";
+        private HttpResponseMessage response;
 
         // GET: BankAccounts
         public ActionResult Index()
