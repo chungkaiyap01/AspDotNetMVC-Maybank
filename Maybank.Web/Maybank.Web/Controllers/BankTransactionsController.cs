@@ -8,18 +8,28 @@ using System.Web;
 using System.Web.Mvc;
 using Maybank.InfrastructurePersistent.Context;
 using Maybank.DomainModelEntity.Entities;
+using Maybank.InfrastructurePersistent.UnitOfWork;
+using System.Net.Http;
 
 namespace Maybank.Web.Controllers
 {
     public class BankTransactionsController : Controller
     {
         private AppDbContext db = new AppDbContext();
+        //private UnitOfWork db = new UnitOfWork();
+        private string controller = "BankTransactions";
+        private HttpResponseMessage response;
 
         // GET: BankTransactions
         public ActionResult Index()
         {
-            var bankTransaction = db.BankTransaction.Include(b => b.BankAccount);
-            return View(bankTransaction.ToList());
+            response = GlobalVariable.WebApiClient.GetAsync(controller).Result;
+            IEnumerable<BankTransaction> bankTransactionList = response.Content.ReadAsAsync<IEnumerable<BankTransaction>>().Result;
+
+            return View(bankTransactionList);
+
+            //var bankTransaction = db.BankTransaction.Include(b => b.BankAccount);
+            //return View(bankTransaction.ToList());
         }
 
         // GET: BankTransactions/Details/5
@@ -29,7 +39,8 @@ namespace Maybank.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BankTransaction bankTransaction = db.BankTransaction.Find(id);
+            response = GlobalVariable.WebApiClient.GetAsync(string.Concat(controller,$"/{id}")).Result;
+            BankTransaction bankTransaction = response.Content.ReadAsAsync<BankTransaction>().Result;
             if (bankTransaction == null)
             {
                 return HttpNotFound();
@@ -53,8 +64,9 @@ namespace Maybank.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.BankTransaction.Add(bankTransaction);
-                db.SaveChanges();
+                response = GlobalVariable.WebApiClient.PostAsJsonAsync(string.Concat(controller, $"/{bankTransaction.ID}"), bankTransaction).Result;
+                //db.BankTransaction.Add(bankTransaction);
+                //db.SaveChanges();
                 return RedirectToAction("Index");
             }
 

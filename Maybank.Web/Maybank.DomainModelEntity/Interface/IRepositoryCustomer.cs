@@ -7,5 +7,8 @@ namespace Maybank.DomainModelEntity.Interface
 {
     public interface IRepositoryCustomer : IRepositoryGeneric<Customer>
     {
+        Customer LoginValidation(string Username, string Password);
+
+        int LatestCustomerID();
     }
 }

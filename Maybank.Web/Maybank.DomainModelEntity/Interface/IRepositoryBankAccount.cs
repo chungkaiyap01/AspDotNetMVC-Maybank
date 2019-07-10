@@ -7,5 +7,8 @@ namespace Maybank.DomainModelEntity.Interface
 {
     public interface IRepositoryBankAccount : IRepositoryGeneric<BankAccount>
     {
+        bool SearchDuplicateAccountNo(long AccountNo);
+
+        BankAccount ReadByCustomerID(int CustomerID);
     }
 }

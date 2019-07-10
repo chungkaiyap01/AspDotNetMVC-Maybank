@@ -6,11 +6,12 @@
 
 <h2>Create</h2>
 
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Customer</h4>
         <hr />
@@ -58,7 +59,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control", @readonly = "true"} })
                 @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -94,3 +95,24 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#DateOfBirth").change(function () {
+
+            var today = new Date();
+            var dob = new Date($("#DateOfBirth").val());
+            var month = today.getMonth() - dob.getMonth();
+            var age = today.getFullYear() - dob.getFullYear();
+
+            if (month < 0 || (month == 0 && today.getDate() < dob.getDate()))
+                age--;
+
+
+            $("#Age").val(age);
+        });
+
+    });
+</script>

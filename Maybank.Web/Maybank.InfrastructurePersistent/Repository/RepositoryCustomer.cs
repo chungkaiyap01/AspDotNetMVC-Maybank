@@ -15,5 +15,15 @@ namespace Maybank.InfrastructurePersistent.Repository
         {
 
         }
+
+        public int LatestCustomerID()
+        {
+            return db.Customer.OrderByDescending(x => x.ID).Select(x => x.ID).FirstOrDefault();
+        }
+
+        public Customer LoginValidation(string Username, string Password)
+        {
+            return db.Customer.Where(x => x.Username == Username && x.Password == Password).FirstOrDefault();
+        }
     }
 }

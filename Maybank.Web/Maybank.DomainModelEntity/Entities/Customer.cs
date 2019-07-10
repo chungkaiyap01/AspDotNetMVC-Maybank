@@ -11,12 +11,12 @@ namespace Maybank.DomainModelEntity.Entities
         [Display(Name = "Customer ID")]
         public int ID { get; set; }
 
-        [Required(ErrorMessage = "Please enter your login username.")]
-        [StringLength(100, MinimumLength = 4)]
+        //[Required(ErrorMessage = "Please enter your login username.")]
+        //[StringLength(100, MinimumLength = 4)]
         public string Username { get; set; }
 
-        [Required(ErrorMessage = "Please enter your login password.")]
-        [StringLength(100, MinimumLength = 8)]
+        //[Required(ErrorMessage = "Please enter your login password.")]
+        //[StringLength(100, MinimumLength = 8)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
@@ -30,6 +30,7 @@ namespace Maybank.DomainModelEntity.Entities
         [Required(ErrorMessage = "Please choose your date of birth.")]
         [Display(Name = "Date Of Birth")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
 
         [Range(18, 100)]

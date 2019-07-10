@@ -12,3 +12,6 @@ C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.Infrastr
 C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\obj\Debug\Maybank.InfrastructurePersistent.csproj.CopyComplete
 C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\obj\Debug\Maybank.InfrastructurePersistent.dll
 C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\obj\Debug\Maybank.InfrastructurePersistent.pdb
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\obj\Debug\Maybank.InfrastructurePersistent.Migrations._201907091825.resources
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\obj\Debug\Maybank.InfrastructurePersistent.csproj.GenerateResource.cache
+C:\Users\Axyl\Documents\GitHub\AspDotNetMVC-Maybank\Maybank.Web\Maybank.InfrastructurePersistent\obj\Debug\Maybank.InfrastructurePersistent.Migrations._201907091830.resources

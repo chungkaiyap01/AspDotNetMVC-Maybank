@@ -4,31 +4,37 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
-using Maybank.InfrastructurePersistent.Context;
 using Maybank.DomainModelEntity.Entities;
+using Maybank.InfrastructurePersistent.Context;
 
 namespace Maybank.Web.Controllers
 {
     public class CustomersController : Controller
     {
-        private AppDbContext db = new AppDbContext();
+        private string controller = "Customers";
+        private HttpResponseMessage response;
 
-        // GET: Customers
+        // GET: Customeras
         public ActionResult Index()
         {
-            return View(db.Customer.ToList());
+            response = GlobalVariable.WebApiClient.GetAsync(controller).Result;
+            IEnumerable<Customer> customerList = response.Content.ReadAsAsync<IEnumerable<Customer>>().Result;
+
+            return View(customerList);
         }
 
-        // GET: Customers/Details/5
+        // GET: Customeras/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customer.Find(id);
+            response = GlobalVariable.WebApiClient.GetAsync(string.Concat(controller, $"/{id}")).Result;
+            Customer customer = response.Content.ReadAsAsync<Customer>().Result;
             if (customer == null)
             {
                 return HttpNotFound();
@@ -36,13 +42,13 @@ namespace Maybank.Web.Controllers
             return View(customer);
         }
 
-        // GET: Customers/Create
+        // GET: Customeras/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Customers/Create
+        // POST: Customeras/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -51,22 +57,22 @@ namespace Maybank.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Customer.Add(customer);
-                db.SaveChanges();
+                response = GlobalVariable.WebApiClient.PostAsJsonAsync(controller, customer).Result;
                 return RedirectToAction("Index");
             }
 
             return View(customer);
         }
 
-        // GET: Customers/Edit/5
+        // GET: Customeras/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customer.Find(id);
+            response = GlobalVariable.WebApiClient.GetAsync(string.Concat(controller, $"/{id}")).Result;
+            Customer customer = response.Content.ReadAsAsync<Customer>().Result;
             if (customer == null)
             {
                 return HttpNotFound();
@@ -74,7 +80,7 @@ namespace Maybank.Web.Controllers
             return View(customer);
         }
 
-        // POST: Customers/Edit/5
+        // POST: Customeras/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -83,21 +89,21 @@ namespace Maybank.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customer).State = EntityState.Modified;
-                db.SaveChanges();
+                response = GlobalVariable.WebApiClient.PutAsJsonAsync(string.Concat(controller, $"/{customer.ID}"), customer).Result;
                 return RedirectToAction("Index");
             }
             return View(customer);
         }
 
-        // GET: Customers/Delete/5
+        // GET: Customeras/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customer.Find(id);
+            response = GlobalVariable.WebApiClient.GetAsync(string.Concat(controller, $"/{id}")).Result;
+            Customer customer = response.Content.ReadAsAsync<Customer>().Result;
             if (customer == null)
             {
                 return HttpNotFound();
@@ -105,24 +111,22 @@ namespace Maybank.Web.Controllers
             return View(customer);
         }
 
-        // POST: Customers/Delete/5
+        // POST: Customeras/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Customer customer = db.Customer.Find(id);
-            db.Customer.Remove(customer);
-            db.SaveChanges();
+            response = GlobalVariable.WebApiClient.DeleteAsync(string.Concat(controller, $"/{id}")).Result;
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }

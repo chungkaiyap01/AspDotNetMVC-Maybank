@@ -50,6 +50,15 @@
   <ItemGroup>
     <Compile Include="Context\AppDbContext.cs" />
     <Compile Include="Interface\IUnitOfWork.cs" />
+    <Compile Include="Migrations\201907091024328_201907091825.cs" />
+    <Compile Include="Migrations\201907091024328_201907091825.Designer.cs">
+      <DependentUpon>201907091024328_201907091825.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907091029490_201907091830.cs" />
+    <Compile Include="Migrations\201907091029490_201907091830.Designer.cs">
+      <DependentUpon>201907091029490_201907091830.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\RepositoryAdministrator.cs" />
     <Compile Include="Repository\RepositoryBankAccount.cs" />
@@ -67,6 +76,14 @@
       <Project>{F48095AF-0ED8-4DEC-AD39-204BD1D08628}</Project>
       <Name>Maybank.DomainModelEntity</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201907091024328_201907091825.resx">
+      <DependentUpon>201907091024328_201907091825.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907091029490_201907091830.resx">
+      <DependentUpon>201907091029490_201907091830.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
