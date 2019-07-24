@@ -93,8 +93,8 @@ namespace Maybank.Web.Controllers
                 return View(fundTransfer);
             }
 
-            GlobalVariable.SendEmail(Owner.Customer.Email, "Fund Transaction", $"Hi {Owner.Customer.Fullname},<br/>You did an {transferModeChosen} Transfer of RM {VMFundTransfer.TransactionAmount} on {DateTime.Now} to {Recipient.Customer.Fullname}.<br/>For enquiry, please call 999.");
-            GlobalVariable.SendEmail(Recipient.Customer.Email, "Fund Transaction", $"Hi {Recipient.Customer.Fullname},<br/>You receive an {transferModeChosen} Transfer of RM {VMFundTransfer.TransactionAmount} on {DateTime.Now} from {Owner.Customer.Fullname}.<br/>For enquiry, please call 999.");
+            // GlobalVariable.SendEmail(Owner.Customer.Email, "Fund Transaction", $"Hi {Owner.Customer.Fullname},<br/>You did an {transferModeChosen} Transfer of RM {VMFundTransfer.TransactionAmount} on {DateTime.Now} to {Recipient.Customer.Fullname}.<br/>For enquiry, please call 999.");
+            // GlobalVariable.SendEmail(Recipient.Customer.Email, "Fund Transaction", $"Hi {Recipient.Customer.Fullname},<br/>You receive an {transferModeChosen} Transfer of RM {VMFundTransfer.TransactionAmount} on {DateTime.Now} from {Owner.Customer.Fullname}.<br/>For enquiry, please call 999.");
 
             BankType recipientBankType = VMFundTransfer.RecipientBank;
             string recipientBank = recipientBankType.ToString();

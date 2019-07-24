@@ -112,7 +112,7 @@ namespace Maybank.UIConsole
 
             response = GlobalVariable.WebApiClient.PutAsJsonAsync(string.Concat(controller, $"/{customer.ID}"), customer).Result;
 
-            GeneralFunction.SendEmail(customer.Email,"Maybank Password Reset",$"Here is your new password {customer.Password}.");
+            //GeneralFunction.SendEmail(customer.Email,"Maybank Password Reset",$"Here is your new password {customer.Password}.");
 
             Console.WriteLine("Password reset successful !");
             Console.WriteLine("New password is send to customer's email");

@@ -132,11 +132,11 @@ namespace Maybank.UIConsole
             WebMail.EnableSsl = true;
 
             //Email ID used to send emails from application
-            WebMail.UserName = "kaichung0070@outlook.com";
-            WebMail.Password = "swan1113";
+            WebMail.UserName = "";
+            WebMail.Password = "";
 
             //Sender email address
-            WebMail.From = "kaichung0070@outlook.com";
+            WebMail.From = "";
 
             //Send email 
             WebMail.Send(to: RecipientEmail, subject: Subject, body: Content, isBodyHtml: true);
