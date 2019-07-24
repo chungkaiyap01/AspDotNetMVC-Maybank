@@ -12,16 +12,20 @@ namespace Maybank.Web.ViewModels
         [Display(Name = "Account No.")]
         public long AccountNo { get; set; }
 
-        [Required(ErrorMessage = "Please select your Account Type.")]
         [Display(Name = "Account Type")]
         public AccountType AccountType { get; set; }
 
         [Display(Name = "Account Balance")]
         public decimal AccountBalance { get; set; }
 
+        [Display(Name = "Recipient Bank")]
+        public BankType RecipientBank { get; set; }
+
+        [Required(ErrorMessage = "Please enter your recipient account number")]
+        [Display(Name = "Recipient Account No.")]
         public long RecipientAccount { get; set; }
 
-        [Required(ErrorMessage = "Please enter your transaction amount.")]
+        [Required(ErrorMessage = "Please enter your transaction amount")]
         [Display(Name = "Transaction Amount")]
         public decimal TransactionAmount { get; set; }
 

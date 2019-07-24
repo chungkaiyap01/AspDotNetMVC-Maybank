@@ -10,5 +10,9 @@ namespace Maybank.DomainModelEntity.Interface
         Customer LoginValidation(string Username, string Password);
 
         int LatestCustomerID();
+
+        Customer CheckBankAccount(string Fullname, string NRIC);
+
+        bool CheckRegisteredAccount(string Username, string Password);
     }
 }

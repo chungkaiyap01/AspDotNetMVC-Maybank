@@ -16,6 +16,16 @@ namespace Maybank.InfrastructurePersistent.Repository
 
         }
 
+        public IEnumerable<BankAccount> IReadByCustomerID(int CustomerID)
+        {
+            return db.BankAccount.Where(x => x.CustomerID == CustomerID).ToList();
+        }
+
+        public BankAccount ReadByAccountNo(long AccountNo)
+        {
+            return db.BankAccount.Where(x => x.AccountNo == AccountNo).FirstOrDefault();
+        }
+
         public BankAccount ReadByCustomerID(int CustomerID)
         {
             return db.BankAccount.Where(x => x.CustomerID == CustomerID).FirstOrDefault();

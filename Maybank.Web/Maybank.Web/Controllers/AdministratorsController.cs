@@ -24,6 +24,11 @@ namespace Maybank.Web.Controllers
         // GET: Administrators
         public ActionResult Index()
         {
+            if (GlobalVariable.PreventIntruder(Session["CustomerID"]))
+            {
+                return RedirectToAction("Index", "Logins");
+            }
+
             response = GlobalVariable.WebApiClient.GetAsync(controller).Result;
             IEnumerable<Administrator> administratorList = response.Content.ReadAsAsync<IEnumerable<Administrator>>().Result;
 

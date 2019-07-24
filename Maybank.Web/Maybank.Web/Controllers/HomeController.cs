@@ -26,5 +26,13 @@ namespace Maybank.Web.Controllers
 
             return View();
         }
+
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            Session.Abandon();
+
+            return RedirectToAction("Index","Logins");
+        }
     }
 }

@@ -16,6 +16,18 @@ namespace Maybank.InfrastructurePersistent.Repository
 
         }
 
+        public Customer CheckBankAccount(string Fullname, string NRIC)
+        {
+            return db.Customer.Where(x => x.Fullname == Fullname && x.NRIC == NRIC).FirstOrDefault();
+        }
+
+        public bool CheckRegisteredAccount(string Username, string Password)
+        {
+            Customer customer = db.Customer.Where(x => x.Username == Username && x.Password == Password).FirstOrDefault();
+
+            return customer == null ? false : true;
+        }
+
         public int LatestCustomerID()
         {
             return db.Customer.OrderByDescending(x => x.ID).Select(x => x.ID).FirstOrDefault();

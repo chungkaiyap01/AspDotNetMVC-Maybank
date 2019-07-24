@@ -10,5 +10,9 @@ namespace Maybank.DomainModelEntity.Interface
         bool SearchDuplicateAccountNo(long AccountNo);
 
         BankAccount ReadByCustomerID(int CustomerID);
+
+        IEnumerable<BankAccount> IReadByCustomerID(int CustomerID);
+
+        BankAccount ReadByAccountNo(long AccountNo);
     }
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Maybank.UIConsole
@@ -62,6 +63,7 @@ namespace Maybank.UIConsole
 
         public static void ManageCustomer()
         {
+            Console.WriteLine();
             ReadAllCustomer();
             Console.WriteLine();
             Console.Write("Please type the customer ID you want to manage : ");
@@ -71,7 +73,7 @@ namespace Maybank.UIConsole
             Console.WriteLine();
             Console.WriteLine($"{customer.Fullname} {customer.NRIC} selected ");
             Console.WriteLine("1. Edit Customer Profile");
-            Console.WriteLine("2. Edit Customer Bank Account");
+            Console.WriteLine("2. Reset Customer Password");
             Console.WriteLine("3. Delete Customer Profile and Bank Account");
             Console.WriteLine("4. Back To Main Menu");
             Console.Write("Please choose your option : ");
@@ -80,7 +82,11 @@ namespace Maybank.UIConsole
             switch (option)
             {
                 case "1":
+                    EditCustomerProfile(customerID);
+                    break;
 
+                case "2":
+                    ResetCustomerPassword(customerID);
                     break;
 
                 case "3":
@@ -92,39 +98,78 @@ namespace Maybank.UIConsole
             }
         }
 
+        private static void ResetCustomerPassword(int CustomerID)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Resetting Password...");
+            Thread.Sleep(2000);
+
+            controller = "Customers";
+            response = GlobalVariable.WebApiClient.GetAsync(string.Concat(controller, $"/{CustomerID}")).Result;
+            Customer customer = response.Content.ReadAsAsync<Customer>().Result;
+
+            customer.Password = GeneralFunction.RandomPassword();
+
+            response = GlobalVariable.WebApiClient.PutAsJsonAsync(string.Concat(controller, $"/{customer.ID}"), customer).Result;
+
+            GeneralFunction.SendEmail(customer.Email,"Maybank Password Reset",$"Here is your new password {customer.Password}.");
+
+            Console.WriteLine("Password reset successful !");
+            Console.WriteLine("New password is send to customer's email");
+            Console.WriteLine();
+        }
+
         private static void EditCustomerProfile(int CustomerID)
         {
-            ReadSingleCustomer(CustomerID);
+            ReadSingleCustomerForEdit(CustomerID);
             Console.WriteLine();
 
-            string[] colName = { "CustomerID", "Fullname", "NRIC", "DateOfBirth", "Age", "Email" };
-            string editcolName = "";
-            int editcolValue = 0;
-            bool loopcheck = false;
+            string editcol = "";
+            Dictionary<int, string> Table = new Dictionary<int, string>()
+            {
+                { 1,"Fullname"},
+                { 2,"NRIC"},
+                { 3,"Date Of Birth"},
+                { 4,"Age"},
+                { 5,"Email"},
+                { 6,"Bank"}
+            };
+
+            bool check = false;
 
             do
             {
-                Console.Write("Please type the exact column name *(exclude CustomerID)* that you want to modify without space : ");
-                editcolName = Console.ReadLine();
+                Console.Write("Please insert the column number as display above that you want to edit : ");
+                editcol = Console.ReadLine();
+                Console.WriteLine();
 
-                foreach (var col in colName)
+                if (Table.ContainsKey(Convert.ToInt32(editcol)))
                 {
-                    if (col.ToLower() == editcolName.ToLower())
-                    {
-                        loopcheck = true;
-                        editcolValue = Array.IndexOf(colName, col);
-                    }
+                    check = true;
                 }
-            } while (loopcheck != true);
+                else
+                {
+                    Console.WriteLine("Invalid column number !");
+                    Console.WriteLine("Please try again.");
+                }
+
+            } while (check == false);
+
+
+
+            if (editcol == "6")
+            {
+                Console.WriteLine("Maybank : 0");
+                Console.WriteLine("Public Bank : 1");
+                Console.WriteLine("CIMB Bank : 2");
+                Console.WriteLine();
+            }
 
             Console.WriteLine("Please insert the new value you want to assign with correct format !");
-            Console.Write($"{colName[editcolValue]} : ");
+            Console.Write($"{Table[Convert.ToInt16(editcol)]} : ");
             string newcolValue = Console.ReadLine();
 
-
-
-
-
+            UpdateSingleCustomerForEdit(CustomerID, Convert.ToInt16(editcol), newcolValue);
 
         }
 
@@ -149,32 +194,124 @@ namespace Maybank.UIConsole
                 Console.WriteLine("Customer Profile and Bank Account delete successfully");
         }
 
-        private static void ReadSingleCustomer(int CustomerID)
+        private static void ReadSingleCustomerForEdit(int CustomerID)
         {
-            controller = "Customers";
-            response = GlobalVariable.WebApiClient.GetAsync(string.Concat(controller, $"/{CustomerID}")).Result;
-            Customer customer = response.Content.ReadAsAsync<Customer>().Result;
+            controller = "BankAccounts";
 
-            var table = new ConsoleTable("Customer ID", "Fullname", "NRIC", "Date Of Birth", "Age", "Email");
+            BankAccount GetBankAccountID = db.BankAccount.ReadByCustomerID(CustomerID);
+            response = GlobalVariable.WebApiClient.GetAsync(string.Concat(controller, $"/{GetBankAccountID.ID}")).Result;
+            BankAccount x = response.Content.ReadAsAsync<BankAccount>().Result;
 
-            table.AddRow(customer.ID, customer.Fullname, customer.NRIC, string.Format("{0:yyyy/MM/dd}", customer.DateOfBirth), customer.Age, customer.Email);
+            var table = new ConsoleTable("1", "2", "3", "4", "5", "6");
+
+            table.AddRow("Fullname", "NRIC", "Date Of Birth", "Age", "Email", "Bank");
+
+            BankType bankType = x.Bank;
+
+            table.AddRow(x.Customer.Fullname, x.Customer.NRIC, string.Format("{0:yyyy/MM/dd}", x.Customer.DateOfBirth), x.Customer.Age, x.Customer.Email, bankType.ToString());
 
             table.Options.EnableCount = false;
             table.Write();
         }
 
-        public static void ReadAllCustomer()
+        private static void UpdateSingleCustomerForEdit(int CustomerID, int editcol, string newcolValue)
         {
             controller = "Customers";
+            response = GlobalVariable.WebApiClient.GetAsync(string.Concat(controller, $"/{CustomerID}")).Result;
+            Customer customer = response.Content.ReadAsAsync<Customer>().Result;
+
+
+            BankAccount GetBankAccountID = db.BankAccount.ReadByCustomerID(CustomerID);
+            response = GlobalVariable.WebApiClient.GetAsync(string.Concat("BankAccounts", $"/{GetBankAccountID.ID}")).Result;
+            BankAccount bankAccount = response.Content.ReadAsAsync<BankAccount>().Result;
+
+            switch (editcol)
+            {
+                case 1:
+                    customer.Fullname = newcolValue;
+                    break;
+
+                case 2:
+                    customer.NRIC = newcolValue;
+                    break;
+
+                case 3:
+                    customer.DateOfBirth = Convert.ToDateTime(newcolValue);
+                    break;
+
+                case 4:
+                    customer.Age = Convert.ToInt32(newcolValue);
+                    break;
+
+                case 5:
+                    customer.Email = newcolValue;
+                    break;
+
+                case 6:
+
+                    switch (Convert.ToInt32(newcolValue))
+                    {
+                        case 0:
+                            bankAccount.Bank = BankType.Maybank;
+                            break;
+
+                        case 1:
+                            bankAccount.Bank = BankType.Public_Bank;
+                            break;
+
+                        case 2:
+                            bankAccount.Bank = BankType.CIMB_Bank;
+                            break;
+
+                        default:
+                            Environment.Exit(0);
+                            break;
+                    }
+
+                    break;
+
+                default:
+                    Environment.Exit(0);
+                    break;
+            }
+
+            if(editcol == 6)
+            {
+                response = GlobalVariable.WebApiClient.PutAsJsonAsync(string.Concat("BankAccounts", $"/{bankAccount.ID}"), bankAccount).Result;
+            }
+            else
+            {
+                response = GlobalVariable.WebApiClient.PutAsJsonAsync(string.Concat(controller, $"/{customer.ID}"), customer).Result;
+            }
+
+            
+
+            if (response.IsSuccessStatusCode == true)
+            {
+                Console.WriteLine("Customer Profile Updated.\nPress any key to continue");
+                Console.ReadKey();
+                Console.WriteLine();
+            }
+
+
+
+        }
+
+        public static void ReadAllCustomer()
+        {
+            controller = "BankAccounts";
 
             response = GlobalVariable.WebApiClient.GetAsync(controller).Result;
-            IEnumerable<Customer> customerList = response.Content.ReadAsAsync<IEnumerable<Customer>>().Result;
+            IEnumerable<BankAccount> bankAccountList = response.Content.ReadAsAsync<IEnumerable<BankAccount>>().Result;
 
-            var table = new ConsoleTable("CustomerID", "Full Name", "NRIC", "Date Of Birth", "Age", "Email");
+            var table = new ConsoleTable("CustomerID", "Full Name", "NRIC", "Date Of Birth", "Age", "Email", "Account Type", "AccountNo", "Account Balance", "Bank");
 
-            foreach (var item in customerList)
+            foreach (var item in bankAccountList)
             {
-                table.AddRow(item.ID, item.Fullname, item.NRIC, string.Format("{0:yyyy/MM/dd}", item.DateOfBirth), item.Age, item.Email);
+                AccountType accountType = item.AccountType;
+                BankType bankType = item.Bank;
+
+                table.AddRow(item.Customer.ID, item.Customer.Fullname, item.Customer.NRIC, string.Format("{0:yyyy/MM/dd}", item.Customer.DateOfBirth), item.Customer.Age, item.Customer.Email, accountType.ToString(), item.AccountNo, item.AccountBalance, bankType.ToString());
             }
 
             table.Options.EnableCount = false;
@@ -193,7 +330,7 @@ namespace Maybank.UIConsole
                 customer.Username = null;
 
             Console.Write("Password : ");
-            customer.Password = PasswordMaking();
+            customer.Password = GeneralFunction.PasswordMaking();
             if (customer.Password == "")
                 customer.Password = null;
 
@@ -205,7 +342,7 @@ namespace Maybank.UIConsole
 
             Console.Write("Date Of Birth : ");
             customer.DateOfBirth = Convert.ToDateTime(Console.ReadLine());
-            customer.Age = AgeCalculate(customer.DateOfBirth);
+            customer.Age = GeneralFunction.AgeCalculate(customer.DateOfBirth);
 
             Console.Write("Email : ");
             customer.Email = Console.ReadLine();
@@ -220,7 +357,7 @@ namespace Maybank.UIConsole
 
             bankAccount.CustomerID = db.Customer.LatestCustomerID();
             bankAccount.AccountType = (int)AccountType.Savings_Account;
-            bankAccount.AccountNo = AccountNoGeneration();
+            bankAccount.AccountNo = GeneralFunction.AccountNoGeneration();
 
             Console.Write("Account Balance : ");
             bankAccount.AccountBalance = Convert.ToDecimal(Console.ReadLine());
@@ -236,75 +373,6 @@ namespace Maybank.UIConsole
                 Console.WriteLine("Customer profile and bank account create successfully !");
         }
 
-        private static long AccountNoGeneration()
-        {
-            var random = new Random();
-            string s = string.Empty;
-            int length = 12;
-            bool check = false;
 
-            do
-            {
-                for (int i = 0; i < length; i++)
-                {
-                    s = string.Concat(s, random.Next(10).ToString());
-
-                    if (s[0] == '0')
-                    {
-                        s = string.Empty;
-                        i--;
-                    }
-                }
-
-                check = db.BankAccount.SearchDuplicateAccountNo(Convert.ToInt64(s));
-
-            } while (check == true);
-
-
-            return Convert.ToInt64(s);
-        }
-
-        private static int AgeCalculate(DateTime dob)
-        {
-            var today = DateTime.Today;
-            var month = today.Month - dob.Month;
-            int age = today.Year - dob.Year;
-
-            if (month < 0 || (month == 0 && today.Date < dob.Date))
-                age--;
-
-            return age;
-        }
-
-        private static string PasswordMaking()
-        {
-            string pass = "";
-            do
-            {
-                ConsoleKeyInfo key = Console.ReadKey(true);
-                // Backspace Should Not Work
-                if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
-                {
-                    pass += key.KeyChar;
-                    Console.Write("*");
-                }
-                else
-                {
-                    if (key.Key == ConsoleKey.Backspace && pass.Length > 0)
-                    {
-                        pass = pass.Substring(0, (pass.Length - 1));
-                        Console.Write("\b \b");
-                    }
-                    else if (key.Key == ConsoleKey.Enter)
-                    {
-                        break;
-                    }
-                }
-            } while (true);
-
-            Console.WriteLine();
-
-            return pass;
-        }
     }
 }

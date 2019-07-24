@@ -6,9 +6,6 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -24,22 +21,21 @@
             @Html.DisplayNameFor(model => model.TransactionAmount)
         </th>
     </tr>
-
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.TransactionDateTime)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.TransferMode)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Remarks)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.TransactionAmount)
-    </td>
-</tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransferMode)
+            </td>
+            <td>
+                @Html.DisplayFor(momodelItemdel => item.Remarks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionAmount)
+            </td>
+        </tr>
+    }
 </table>

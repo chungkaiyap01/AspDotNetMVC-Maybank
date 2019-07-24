@@ -9,30 +9,51 @@ using System.Web.Mvc;
 using Maybank.InfrastructurePersistent.Context;
 using Maybank.DomainModelEntity.Entities;
 using System.Net.Http;
+using Maybank.InfrastructurePersistent.UnitOfWork;
 
 namespace Maybank.Web.Controllers
 {
     public class BankAccountsController : Controller
     {
-        private AppDbContext db = new AppDbContext();
+        private UnitOfWork db = new UnitOfWork();
         private string controller = "BankAccounts";
         private HttpResponseMessage response;
 
         // GET: BankAccounts
         public ActionResult Index()
         {
-            var bankAccount = db.BankAccount.Include(b => b.Customer);
-            return View(bankAccount.ToList());
+            if (GlobalVariable.PreventIntruder(Session["CustomerID"]))
+            {
+                return RedirectToAction("Index", "Logins");
+            }
+
+            string CustomerID = Session["CustomerID"].ToString();
+            BankAccount bankAccountByCustomerID = db.BankAccount.ReadByCustomerID(Convert.ToInt32(CustomerID));
+
+            response = GlobalVariable.WebApiClient.GetAsync(string.Concat(controller, $"/{bankAccountByCustomerID.ID}")).Result;
+            BankAccount bankAccount = response.Content.ReadAsAsync<BankAccount>().Result;
+
+            return View(bankAccount);
+
+
+            //var bankAccount = db.BankAccount.Include(b => b.Customer);
+            //return View(bankAccount.ToList());
         }
 
         // GET: BankAccounts/Details/5
         public ActionResult Details(int? id)
         {
+            if (GlobalVariable.PreventIntruder(Session["CustomerID"]))
+            {
+                return RedirectToAction("Index", "Logins");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BankAccount bankAccount = db.BankAccount.Find(id);
+            response = GlobalVariable.WebApiClient.GetAsync(string.Concat(controller, $"/{id}")).Result;
+            BankAccount bankAccount = response.Content.ReadAsAsync<BankAccount>().Result;
             if (bankAccount == null)
             {
                 return HttpNotFound();
@@ -43,7 +64,12 @@ namespace Maybank.Web.Controllers
         // GET: BankAccounts/Create
         public ActionResult Create()
         {
-            ViewBag.CustomerID = new SelectList(db.Customer, "ID", "Username");
+            if (GlobalVariable.PreventIntruder(Session["CustomerID"]))
+            {
+                return RedirectToAction("Index", "Logins");
+            }
+
+            //ViewBag.CustomerID = new SelectList(db.Customer, "ID", "Username");
             return View();
         }
 
@@ -54,30 +80,38 @@ namespace Maybank.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,CustomerID,AccountType,AccountNo,AccountBalance,Bank")] BankAccount bankAccount)
         {
+            string CustomerID = Session["CustomerID"].ToString();
+            bankAccount.CustomerID = Convert.ToInt32(CustomerID);
+
             if (ModelState.IsValid)
             {
-                db.BankAccount.Add(bankAccount);
-                db.SaveChanges();
+                response = GlobalVariable.WebApiClient.PutAsJsonAsync(controller, bankAccount).Result;
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CustomerID = new SelectList(db.Customer, "ID", "Username", bankAccount.CustomerID);
+            //ViewBag.CustomerID = new SelectList(db.Customer, "ID", "Username", bankAccount.CustomerID);
             return View(bankAccount);
         }
 
         // GET: BankAccounts/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (GlobalVariable.PreventIntruder(Session["CustomerID"]))
+            {
+                return RedirectToAction("Index", "Logins");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BankAccount bankAccount = db.BankAccount.Find(id);
+            response = GlobalVariable.WebApiClient.GetAsync(string.Concat(controller, $"/{id}")).Result;
+            BankAccount bankAccount = response.Content.ReadAsAsync<BankAccount>().Result;
             if (bankAccount == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerID = new SelectList(db.Customer, "ID", "Username", bankAccount.CustomerID);
+            //ViewBag.CustomerID = new SelectList(db.Customer, "ID", "Username", bankAccount.CustomerID);
             return View(bankAccount);
         }
 
@@ -88,24 +122,32 @@ namespace Maybank.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,CustomerID,AccountType,AccountNo,AccountBalance,Bank")] BankAccount bankAccount)
         {
+            string CustomerID = Session["CustomerID"].ToString();
+            bankAccount.CustomerID = Convert.ToInt32(CustomerID);
+
             if (ModelState.IsValid)
             {
-                db.Entry(bankAccount).State = EntityState.Modified;
-                db.SaveChanges();
+                response = GlobalVariable.WebApiClient.PutAsJsonAsync(string.Concat(controller, $"/{bankAccount.ID}"), bankAccount).Result;
                 return RedirectToAction("Index");
             }
-            ViewBag.CustomerID = new SelectList(db.Customer, "ID", "Username", bankAccount.CustomerID);
+            //ViewBag.CustomerID = new SelectList(db.Customer, "ID", "Username", bankAccount.CustomerID);
             return View(bankAccount);
         }
 
         // GET: BankAccounts/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (GlobalVariable.PreventIntruder(Session["CustomerID"]))
+            {
+                return RedirectToAction("Index", "Logins");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BankAccount bankAccount = db.BankAccount.Find(id);
+            response = GlobalVariable.WebApiClient.GetAsync(string.Concat(controller, $"/{id}")).Result;
+            BankAccount bankAccount = response.Content.ReadAsAsync<BankAccount>().Result;
             if (bankAccount == null)
             {
                 return HttpNotFound();
@@ -118,19 +160,17 @@ namespace Maybank.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            BankAccount bankAccount = db.BankAccount.Find(id);
-            db.BankAccount.Remove(bankAccount);
-            db.SaveChanges();
+            response = GlobalVariable.WebApiClient.DeleteAsync(string.Concat(controller, $"/{id}")).Result;
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }

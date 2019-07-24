@@ -7,5 +7,6 @@ namespace Maybank.DomainModelEntity.Interface
 {
     public interface IRepositoryBankTransaction : IRepositoryGeneric<BankTransaction>
     {
+        IEnumerable<BankTransaction> ReadByBankAccountID(int BankAccountID);
     }
 }

@@ -16,5 +16,10 @@ namespace Maybank.InfrastructurePersistent.Repository
         {
 
         }
+
+        public IEnumerable<BankTransaction> ReadByBankAccountID(int BankAccountID)
+        {
+            return db.BankTransaction.Where(x => x.BankAccountID == BankAccountID).ToList();
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Maybank.DomainModelEntity.Entities.BankAccount>
+﻿@model Maybank.DomainModelEntity.Entities.BankAccount
 
 @{
     ViewBag.Title = "Index";
@@ -6,14 +6,8 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
-        @*<th>
-            @Html.DisplayNameFor(model => model.Customer.Username)
-        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.AccountType)
         </th>
@@ -28,30 +22,18 @@
         </th>
         <th></th>
     </tr>
-
-@foreach (var item in Model) {
     <tr>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.Customer.Username)
-        </td>*@
         <td>
-            @Html.DisplayFor(modelItem => item.AccountType)
+            @Html.DisplayFor(model => model.AccountType)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AccountNo)
+            @Html.DisplayFor(model => model.AccountNo)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AccountBalance)
+            @Html.DisplayFor(model => model.AccountBalance)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Bank)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.DisplayFor(model => model.Bank)
         </td>
     </tr>
-}
-
 </table>

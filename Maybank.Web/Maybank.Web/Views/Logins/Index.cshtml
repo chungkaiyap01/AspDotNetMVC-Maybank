@@ -1,7 +1,7 @@
 ﻿@model Maybank.Web.ViewModels.VMLogin
 
 @{
-    Layout = null;
+    Layout = "/Views/Shared/_Layout2.cshtml";
 }
 
 <!DOCTYPE html>
@@ -12,10 +12,6 @@
     <title>Index</title>
 </head>
 <body>
-    @Scripts.Render("~/bundles/bootstrap")
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
 
 
     @using (Html.BeginForm())
@@ -23,10 +19,10 @@
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
-            <h4>Maybank</h4>
+            <h2>Login</h2>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div style="margin-left:-14%">
+            <div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -45,16 +41,21 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" />
+                        <input type="submit" value="Login" class="btn btn-default" />
+                        @Html.ActionLink("Register Now", "Register")
                     </div>
                 </div>
             </div>
         </div>
+        if (ViewBag.RegisterMsg != null)
+        {
+            <p class="text-info" id="RegisterMsg">@ViewBag.RegisterMsg</p>
+        }
     }
 
     @if (ViewBag.ErrorMessage != null)
     {
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger" role="alert" id="LoginMsg">
             @ViewBag.ErrorMessage
             <br />
             @ViewBag.ErrorMessage2
@@ -64,3 +65,18 @@
 
 </body>
 </html>
+
+<script>
+
+    $(document).ready(function () {
+
+        setTimeout(function () { $('#RegisterMsg').fadeOut(); }, 3000);
+
+        setTimeout(function () { $('#LoginMsg').fadeOut(); }, 3000);
+
+        setTimeout(function () { $('#LoginMsg2').fadeOut(); }, 3000);
+    });
+
+
+
+</script>
